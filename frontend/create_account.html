@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div>
+      <h2>Create Account</h2>
+      <form id="accountForm">
+        <label for="newUsername">Username:</label>
+        <input type="text" id="newUsername" required />
+
+        <label for="newPassword">Password:</label>
+        <input type="password" id="newPassword" required />
+
+        <button type="button" onclick="createAccount()">Create Account</button>
+      </form>
+
+      <p>Account created? <a href="login.html">Login</a></p>
+    </div>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
