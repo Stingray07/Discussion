@@ -1,14 +1,20 @@
 const express = require("express");
-const app = express();
 const bodyParser = require("body-parser");
+const session = require("express-session");
+
+const app = express();
 const port = 3000;
 
 app.use(express.static("frontend"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
+app.get("/home.html", (req, res) => {
   res.send("Hello World");
+});
+
+app.get("/", (req, res) => {
+  res.redirect("/home.html");
 });
 
 app.post("/login.html", (req, res) => {
