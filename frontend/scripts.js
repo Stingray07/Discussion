@@ -34,3 +34,11 @@ function getUserAndPass() {
 function hasEmptyField(username, password) {
   return username === "" || password === "";
 }
+
+function createNewDiscussion() {
+  window.location.href = "http://localhost:3000/create_discussion.html";
+}
+
+function logout() {
+  window.location.href = "http://localhost:3000/login.html";
+}
