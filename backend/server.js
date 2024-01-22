@@ -31,6 +31,13 @@ app.post("/create_account.html", (req, res) => {
   res.json(req.body);
 });
 
+app.post("/create_discussion.html", (req, res) => {
+  console.log(
+    `CREATE DISCUSSION: topic=${req.body.discussionTopic}; content=${req.body.discussionContent}`
+  );
+  res.json(req.body);
+});
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });

@@ -16,7 +16,14 @@
         <label for="newPassword">Password:</label>
         <input type="password" id="password" required />
 
-        <button type="button" onclick="submitForm('create_account')">
+        <script>
+          function handleCreateAccount() {
+            const userAndPass = getUserAndPass();
+            submitForm(userAndPass, "create_account");
+          }
+        </script>
+
+        <button type="button" onclick="handleCreateAccount()">
           Create Account
         </button>
       </form>

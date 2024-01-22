@@ -17,7 +17,14 @@
         <label for="discussionContent">Discussion Content:</label>
         <textarea id="discussionContent" rows="8" required></textarea>
 
-        <button type="button" onclick="submitDiscussion()">
+        <script>
+          function handleSubmitDiscussion() {
+            const discussionJSONBody = getTopicAndContent();
+            submitForm(discussionJSONBody, "create_discussion");
+          }
+        </script>
+
+        <button type="button" onclick="handleSubmitDiscussion()">
           Submit Discussion
         </button>
       </form>

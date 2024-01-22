@@ -16,7 +16,14 @@
         <label for="password">Password:</label>
         <input type="password" id="password" required />
 
-        <button type="button" onclick="submitForm('login')">Login</button>
+        <script>
+          function handleLogin() {
+            const userAndPass = getUserAndPass();
+            submitForm(userAndPass, "login");
+          }
+        </script>
+
+        <button type="button" onclick="handleLogin()">Login</button>
       </form>
 
       <p>

@@ -13,10 +13,9 @@ function initializeReqOptions(raw, reqType) {
   return requestOptions;
 }
 
-function submitForm(formType) {
-  const userAndPass = getUserAndPass();
+function submitForm(body, formType) {
   const reqType = "POST";
-  const requestOptions = initializeReqOptions(userAndPass, reqType);
+  const requestOptions = initializeReqOptions(body, reqType);
 
   fetch(`http://localhost:3000/${formType}.html`, requestOptions)
     .then((response) => response.text())
@@ -29,6 +28,16 @@ function getUserAndPass() {
   const password = document.getElementById("password").value;
 
   return { username: username, password: password };
+}
+
+function getTopicAndContent() {
+  const discussionTopic = document.getElementById("discussionTopic").value;
+  const discussionContent = document.getElementById("discussionContent").value;
+
+  return {
+    discussionTopic: discussionTopic,
+    discussionContent: discussionContent,
+  };
 }
 
 function hasEmptyField(username, password) {
