@@ -8,6 +8,13 @@ const port = 3000;
 app.use(express.static("frontend"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "shhhh, very secret",
+  })
+);
 
 app.get("/home.html", (req, res) => {
   res.send("Hello World");
@@ -21,14 +28,18 @@ app.post("/login.html", (req, res) => {
   console.log(
     `LOGIN POST: username=${req.body.username}; password=${req.body.password}`
   );
-  res.json(req.body);
+  res.redirect("/home.html");
 });
 
 app.post("/create_account.html", (req, res) => {
   console.log(
     `CREATE ACCOUNT POST: username=${req.body.username}; password=${req.body.password}`
   );
-  res.json(req.body);
+  var body = {
+    username: req.body.username,
+    stat: "Account Created",
+  };
+  res.json(body);
 });
 
 app.post("/create_discussion.html", (req, res) => {

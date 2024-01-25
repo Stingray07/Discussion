@@ -18,9 +18,18 @@ function submitForm(body, formType) {
   const requestOptions = initializeReqOptions(body, reqType);
 
   fetch(`http://localhost:3000/${formType}.html`, requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log("error", error));
+    .then((response) => {
+      if (response.ok) {
+        console.log(response);
+        return response.json();
+      } else {
+        throw new Error("Failed to fetch data");
+      }
+    })
+    .then((data) => {
+      console.log("Fecthed Data: ", data);
+    })
+    .catch((error) => console.error("error", error));
 }
 
 function getUserAndPass() {
@@ -44,10 +53,10 @@ function hasEmptyField(username, password) {
   return username === "" || password === "";
 }
 
-function createNewDiscussion() {
+function createNewDiscussionButtonHandler() {
   window.location.href = "http://localhost:3000/create_discussion.html";
 }
 
-function logout() {
+function logoutButtonHandler() {
   window.location.href = "http://localhost:3000/login.html";
 }
