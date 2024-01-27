@@ -3,13 +3,6 @@ var hash = bkfd2Password();
 var assert = require("assert");
 const { accessSync } = require("fs");
 
-// dummy db
-var db = {
-  user1: {
-    password: "stingyar",
-  },
-};
-
 function hashPassword(password, salt, callback) {
   if (typeof salt === "function") {
     callback = salt;
