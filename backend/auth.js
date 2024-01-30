@@ -1,6 +1,5 @@
 var bkfd2Password = require("pbkdf2-password");
 var hash = bkfd2Password();
-var assert = require("assert");
 
 function hashPassword(password, salt, callback) {
   // check if salt has value
@@ -37,8 +36,15 @@ function authPass(hashedPassword, password, salt, callback) {
     if (err) {
       callback(err);
     } else {
-      assert.deepEqual(res.hash, hashedPassword);
-      callback(null, true);
+      if (res.hash === hashedPassword) {
+        callback(null, true);
+      } else {
+        callback(null, false);
+      }
     }
   });
 }
+
+module.exports = {
+  authPass,
+};

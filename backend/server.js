@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const { authPass } = require("./auth");
 
 const app = express();
 const port = 3000;
@@ -28,6 +29,20 @@ app.post("/login.html", (req, res) => {
   console.log(
     `LOGIN POST: username=${req.body.username}; password=${req.body.password}`
   );
+
+  // function for checking username in DB
+
+  // function for getting hashed password from username in DB
+
+  // auth password
+  authPass(hashedPassword, req.body.password, "test", function (err, res) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(res);
+    }
+  });
+
   res.redirect("/home.html");
 });
 
