@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const { authPass } = require("./auth");
+const { Pool } = require("pg");
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
