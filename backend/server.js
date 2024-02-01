@@ -19,14 +19,17 @@ app.use(
   })
 );
 
+// home handler
 app.get("/home.html", (req, res) => {
   res.send("Hello World");
 });
 
+// main handler
 app.get("/", (req, res) => {
   res.redirect("/home.html");
 });
 
+// login handler
 app.post("/login.html", (req, res) => {
   console.log(
     `LOGIN POST: username=${req.body.username}; password=${req.body.password}`
@@ -48,6 +51,7 @@ app.post("/login.html", (req, res) => {
   res.redirect("/home.html");
 });
 
+// create account handler
 app.post("/create_account.html", (req, res) => {
   console.log(
     `CREATE ACCOUNT POST: username=${req.body.username}; password=${req.body.password}`
@@ -59,6 +63,7 @@ app.post("/create_account.html", (req, res) => {
   res.json(body);
 });
 
+// create discussion handler
 app.post("/create_discussion.html", (req, res) => {
   console.log(
     `CREATE DISCUSSION: topic=${req.body.discussionTopic}; content=${req.body.discussionContent}`
