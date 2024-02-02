@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const { authPass } = require("./auth");
+const { authPass, hashPassword } = require("./auth");
+const { insertAccountCred, selectAccountCred } = require("./db_ops");
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -56,6 +57,13 @@ app.post("/create_account.html", (req, res) => {
   console.log(
     `CREATE ACCOUNT POST: username=${req.body.username}; password=${req.body.password}`
   );
+
+  const accountObject = {
+    username: req.body.username,
+  };
+  //...
+  insertAccountCred();
+
   var body = {
     username: req.body.username,
     stat: "Account Created",

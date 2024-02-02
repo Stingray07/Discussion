@@ -47,4 +47,5 @@ function authPass(hashedPassword, password, salt, callback) {
 
 module.exports = {
   authPass,
+  hashPassword,
 };
