@@ -1,13 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const { authPass, hashPassword } = require("./auth");
+const { authPass, hashPassword } = require("./auth_ops");
 const { insertAccountCred, selectAccountCred } = require("./db_ops");
 const { Pool } = require("pg");
 require("dotenv").config();
 
 const app = express();
 const port = 3000;
+const password = process.env.DB_PASSWORD;
+const pool = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "Discussion Database",
+  password: password,
+  port: 5432,
+});
 
 app.use(express.static("frontend"));
 app.use(bodyParser.json());
@@ -19,11 +27,6 @@ app.use(
     secret: "shhhh, very secret",
   })
 );
-
-// home handler
-app.get("/home.html", (req, res) => {
-  res.send("Hello World");
-});
 
 // main handler
 app.get("/", (req, res) => {
@@ -37,15 +40,27 @@ app.post("/login.html", (req, res) => {
   );
 
   // function for checking username in DB
-
-  // function for getting hashed password from username in DB
-
-  // auth password
-  authPass(hashedPassword, req.body.password, "test", function (err, res) {
+  selectAccountCred(req.body.username, pool, (err, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(res);
+      if (res) {
+        authPass(
+          res.acc_password,
+          req.body.password,
+          res.pass_salt,
+          (err, auth_res) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(auth_res);
+              //..
+            }
+          }
+        );
+      } else {
+        console.log("USERNAME NOT FOUND");
+      }
     }
   });
 
@@ -54,15 +69,19 @@ app.post("/login.html", (req, res) => {
 
 // create account handler
 app.post("/create_account.html", (req, res) => {
-  console.log(
-    `CREATE ACCOUNT POST: username=${req.body.username}; password=${req.body.password}`
-  );
+  hashPassword(req.body.password, (err, res) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const accountObject = {
+        username: req.body.username,
+        password: res.hash,
+        salt: res.salt,
+      };
 
-  const accountObject = {
-    username: req.body.username,
-  };
-  //...
-  insertAccountCred();
+      insertAccountCred(accountObject, pool);
+    }
+  });
 
   var body = {
     username: req.body.username,

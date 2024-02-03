@@ -31,8 +31,10 @@ function hashPassword(password, salt, callback) {
 }
 
 function authPass(hashedPassword, password, salt, callback) {
-  // hash and check if actual password and hashed password is equal
+  // hash and check if passed unhashed password and hashed password from DB is equal
   hashPassword(password, salt, function (err, res) {
+    console.log("HASHED PASSWORD = " + res.hash);
+    console.log("HASHED PASSWORD SALT = " + res.salt);
     if (err) {
       callback(err);
     } else {
