@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const { authPass, hashPassword } = require("./auth_ops");
+const { authUser, hashPassword } = require("./auth_ops");
 const { insertAccountCred, selectAccountCred } = require("./db_ops");
 const { Pool } = require("pg");
 require("dotenv").config();
@@ -28,48 +28,26 @@ app.use(
   })
 );
 
-// main handler
+// Main GET handler
 app.get("/", (req, res) => {
   res.redirect("/home.html");
 });
 
-// login handler
-app.post("/login.html", (req, res) => {
-  console.log(
-    `LOGIN POST: username=${req.body.username}; password=${req.body.password}`
-  );
-
-  // function for checking username in DB
-  selectAccountCred(req.body.username, pool, (err, res) => {
-    if (err) {
-      console.log(err);
-    } else {
-      if (res) {
-        authPass(
-          res.acc_password,
-          req.body.password,
-          res.pass_salt,
-          (err, auth_res) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(auth_res);
-              //..
-            }
-          }
-        );
-      } else {
-        console.log("USERNAME NOT FOUND");
-      }
-    }
-  });
-
-  res.redirect("/home.html");
+// Login POST handler
+app.post("/login.html", async (req, res) => {
+  try {
+    authUser(req.body, pool).then((res) => {
+      console.log(res);
+    });
+  } catch (error) {
+    console.error("Error in login post handler:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
-// create account handler
+// Create Account POST handler
 app.post("/create_account.html", (req, res) => {
-  hashPassword(req.body.password, (err, res) => {
+  hashPassword(req.body.password, async (err, res) => {
     if (err) {
       console.log(err);
     } else {
@@ -79,7 +57,8 @@ app.post("/create_account.html", (req, res) => {
         salt: res.salt,
       };
 
-      insertAccountCred(accountObject, pool);
+      const insertion_res = await insertAccountCred(accountObject, pool);
+      console.log(insertion_res);
     }
   });
 
@@ -90,7 +69,7 @@ app.post("/create_account.html", (req, res) => {
   res.json(body);
 });
 
-// create discussion handler
+// Create Discussion POST handler
 app.post("/create_discussion.html", (req, res) => {
   console.log(
     `CREATE DISCUSSION: topic=${req.body.discussionTopic}; content=${req.body.discussionContent}`

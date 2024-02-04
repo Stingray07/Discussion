@@ -1,14 +1,15 @@
 var bkfd2Password = require("pbkdf2-password");
+const { selectAccountCred } = require("./db_ops");
 var hash = bkfd2Password();
 
 function hashPassword(password, salt, callback) {
-  // check if salt has value
+  // Check if salt has value
   if (typeof salt === "function") {
     callback = salt;
     salt = null;
   }
 
-  // hash password if salt has value
+  // Hash password with salt parameter
   if (salt) {
     hash({ password: password, salt: salt }, function (err, _pass, salt, hash) {
       if (err) {
@@ -18,7 +19,7 @@ function hashPassword(password, salt, callback) {
       }
     });
 
-    // hash password with generated salt
+    // Hash password with generated salt
   } else {
     hash({ password: password }, function (err, _pass, salt, hash) {
       if (err) {
@@ -30,8 +31,8 @@ function hashPassword(password, salt, callback) {
   }
 }
 
-function authPass(hashedPassword, password, salt, callback) {
-  // hash and check if passed unhashed password and hashed password from DB is equal
+async function authPass(hashedPassword, password, salt, callback) {
+  // Hash passed password then check if it's equal to original hashed password
   hashPassword(password, salt, function (err, res) {
     console.log("HASHED PASSWORD = " + res.hash);
     console.log("HASHED PASSWORD SALT = " + res.salt);
@@ -47,7 +48,33 @@ function authPass(hashedPassword, password, salt, callback) {
   });
 }
 
+async function authUser(user_info, pool) {
+  try {
+    const accountInfo = await selectAccountCred(user_info.username, pool);
+    if (accountInfo) {
+      return new Promise((resolve, reject) => {
+        // WHY IS THIS NOT USING THE SALT FROM ACCOUNT INFO VAR
+        authPass(
+          accountInfo.acc_password,
+          user_info.password,
+          accountInfo.pass_salt,
+          (err, res) => {
+            if (err) {
+              console.log(err);
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          }
+        );
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
-  authPass,
+  authUser,
   hashPassword,
 };
