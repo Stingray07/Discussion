@@ -34,8 +34,6 @@ function hashPassword(password, salt, callback) {
 async function authPass(hashedPassword, password, salt, callback) {
   // Hash passed password then check if it's equal to original hashed password
   hashPassword(password, salt, function (err, res) {
-    console.log("HASHED PASSWORD = " + res.hash);
-    console.log("HASHED PASSWORD SALT = " + res.salt);
     if (err) {
       callback(err);
     } else {
@@ -50,14 +48,16 @@ async function authPass(hashedPassword, password, salt, callback) {
 
 async function authUser(user_info, pool) {
   try {
+    // Get and check if username in DB
     const accountInfo = await selectAccountCred(user_info.username, pool);
-    if (accountInfo) {
+
+    // Check if accountInfo has values
+    if (Object.keys(accountInfo).length !== 0) {
       return new Promise((resolve, reject) => {
-        // WHY IS THIS NOT USING THE SALT FROM ACCOUNT INFO VAR
         authPass(
-          accountInfo.acc_password,
+          accountInfo[0].acc_password,
           user_info.password,
-          accountInfo.pass_salt,
+          accountInfo[0].pass_salt,
           (err, res) => {
             if (err) {
               console.log(err);

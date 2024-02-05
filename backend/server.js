@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const { authUser, hashPassword } = require("./auth_ops");
-const { insertAccountCred, selectAccountCred } = require("./db_ops");
+const { insertAccountCred } = require("./db_ops");
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -36,9 +36,18 @@ app.get("/", (req, res) => {
 // Login POST handler
 app.post("/login.html", async (req, res) => {
   try {
-    authUser(req.body, pool).then((res) => {
-      console.log(res);
-    });
+    authUser(req.body, pool)
+      .then((auth_res) => {
+        if (auth_res) {
+          res.redirect("/home.html");
+        } else {
+          console.log("ACCOUNT NOT IN DB");
+        }
+      })
+      .catch((err) => {
+        console.error("Error in login post handler:", err);
+        res.status(500).send("Internal Server Error");
+      });
   } catch (error) {
     console.error("Error in login post handler:", error);
     res.status(500).send("Internal Server Error");
