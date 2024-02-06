@@ -4,6 +4,8 @@ const session = require("express-session");
 const { authUser, hashPassword } = require("./auth_ops");
 const { insertAccountCred } = require("./db_ops");
 const { Pool } = require("pg");
+const RedisStore = require("connect-redis").default;
+const redis = require("redis");
 require("dotenv").config();
 
 const app = express();
@@ -16,15 +18,21 @@ const pool = new Pool({
   password: password,
   port: 5432,
 });
+const redisClient = redis.createClient();
+redisClient.connect().catch(console.error);
+const redisStore = new RedisStore({
+  client: redisClient,
+});
 
 app.use(express.static("frontend"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
+    store: redisStore,
     resave: false,
     saveUninitialized: false,
-    secret: "shhhh, very secret",
+    secret: process.env.SECRET,
   })
 );
 
@@ -39,7 +47,9 @@ app.post("/login.html", async (req, res) => {
     authUser(req.body, pool)
       .then((auth_res) => {
         if (auth_res) {
+          // Create Session Here
           res.redirect("/home.html");
+          console.log("REDIRECT");
         } else {
           console.log("ACCOUNT NOT IN DB");
         }
