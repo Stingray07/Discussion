@@ -6,6 +6,7 @@ const { insertAccountCred } = require("./db_ops");
 const { Pool } = require("pg");
 const RedisStore = require("connect-redis").default;
 const redis = require("redis");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -24,7 +25,14 @@ const redisStore = new RedisStore({
   client: redisClient,
 });
 
-app.use(express.static("frontend"));
+redisClient.on("error", function (err) {
+  console.log("Could not establish a connection with redis. " + err);
+});
+redisClient.on("connect", function (err) {
+  console.log("Connected to redis successfully");
+});
+
+app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
@@ -38,8 +46,10 @@ app.use(
 
 // Main GET handler
 app.get("/", (req, res) => {
-  res.redirect("/home.html");
+  res.redirect("/login.html");
 });
+
+app.get("/home.html", (req, res) => {});
 
 // Login POST handler
 app.post("/login.html", async (req, res) => {
@@ -47,6 +57,9 @@ app.post("/login.html", async (req, res) => {
     authUser(req.body, pool)
       .then((auth_res) => {
         if (auth_res) {
+          const session = req.session;
+          session.username = req.body.username;
+          // THINK ABOUT SESSION LOGIC
           // Create Session Here
           res.redirect("/home.html");
           console.log("REDIRECT");

@@ -19,7 +19,9 @@ function submitForm(body, formType) {
 
   fetch(`http://localhost:3000/${formType}.html`, requestOptions)
     .then((response) => {
-      if (response.ok) {
+      if (response.redirected === true) {
+        window.location.href = response.url;
+      } else if (response.status === 200) {
         console.log(response);
         return response.json();
       } else {
