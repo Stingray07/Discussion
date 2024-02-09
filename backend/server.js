@@ -4,6 +4,7 @@ const {
   authenticate,
   sessionMiddleware,
   createAccount,
+  authenticated,
 } = require("./middlewares");
 const path = require("path");
 require("dotenv").config();
@@ -11,7 +12,11 @@ require("dotenv").config();
 const app = express();
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, "../frontend")));
+app.use(express.static(path.join(__dirname, "../frontend/public")));
+app.use(
+  authenticated,
+  express.static(path.join(__dirname, "../frontend/private"))
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(sessionMiddleware);
@@ -25,6 +30,7 @@ app.get("/", (req, res) => {
 
 // Login POST handler
 app.post("/login.html", async (req, res) => {
+  // Redirect to home IF authorized
   res.redirect("/home.html");
 });
 

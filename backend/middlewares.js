@@ -24,7 +24,7 @@ const redisStore = new RedisStore({
 redisClient.on("error", function (err) {
   console.log("Could not establish a connection with redis. " + err);
 });
-redisClient.on("connect", function (err) {
+redisClient.on("connect", function (_err) {
   console.log("Connected to redis successfully");
 });
 
@@ -77,8 +77,16 @@ const createAccount = async (req, res, next) => {
   }
 };
 
+const authenticated = (req, res, next) => {
+  console.log("IS THIS DUDE AUTHENTICATED");
+  next();
+};
+
 module.exports = {
   authenticate,
   sessionMiddleware,
   createAccount,
+  authenticated,
 };
+
+// ADD MIDDLEWARE TO EXPRESS.STATIC SERVED FILES
