@@ -40,6 +40,7 @@ const authenticate = async (req, res, next) => {
     const auth_res = await authUser(req.body, pool);
     if (auth_res) {
       req.session.username = req.body.username;
+      console.log(req.sessionID);
       next();
     } else {
       console.log("ACCOUNT NOT IN DB");
@@ -77,8 +78,9 @@ const createAccount = async (req, res, next) => {
   }
 };
 
-const authenticated = (req, res, next) => {
-  console.log("IS THIS DUDE AUTHENTICATED");
+const isAuthenticated = (req, res, next) => {
+  console.log("Requested File:", req.originalUrl);
+  console.log("Session ID:", req.sessionID);
   next();
 };
 
@@ -86,7 +88,8 @@ module.exports = {
   authenticate,
   sessionMiddleware,
   createAccount,
-  authenticated,
+  isAuthenticated,
 };
 
-// ADD MIDDLEWARE TO EXPRESS.STATIC SERVED FILES
+// ADDED MIDDLEWARE BUT MIDDLEWARE RUNS THREE TIMES,
+// MAYBE IT RUNS TWO MORE TIMES BECAUSE OF THE CSS AND JS ASLO BEING SERVED

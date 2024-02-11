@@ -4,7 +4,7 @@ const {
   authenticate,
   sessionMiddleware,
   createAccount,
-  authenticated,
+  isAuthenticated,
 } = require("./middlewares");
 const path = require("path");
 require("dotenv").config();
@@ -13,10 +13,9 @@ const app = express();
 const port = 3000;
 
 app.use(express.static(path.join(__dirname, "../frontend/public")));
-app.use(
-  authenticated,
-  express.static(path.join(__dirname, "../frontend/private"))
-);
+app
+  .use(isAuthenticated)
+  .use(express.static(path.join(__dirname, "../frontend/private")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(sessionMiddleware);
