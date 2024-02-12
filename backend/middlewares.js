@@ -36,6 +36,8 @@ const sessionMiddleware = session({
 });
 
 const authenticate = async (req, res, next) => {
+  console.log("AUTH MIDDLEWARE");
+
   try {
     const auth_res = await authUser(req.body, pool);
     if (auth_res) {
@@ -53,6 +55,7 @@ const authenticate = async (req, res, next) => {
 };
 
 const createAccount = async (req, res, next) => {
+  console.log("CREATE ACCOUNT MIDDLEWARE");
   try {
     hashPassword(req.body.password, async (err, hashedResult) => {
       if (err) {
@@ -79,6 +82,7 @@ const createAccount = async (req, res, next) => {
 };
 
 const isAuthenticated = (req, res, next) => {
+  console.log("ISAUTH MIDDLEWARE");
   console.log("Requested File:", req.originalUrl);
   console.log("Session ID:", req.sessionID);
   next();
@@ -91,5 +95,4 @@ module.exports = {
   isAuthenticated,
 };
 
-// ADDED MIDDLEWARE BUT MIDDLEWARE RUNS THREE TIMES,
-// MAYBE IT RUNS TWO MORE TIMES BECAUSE OF THE CSS AND JS ASLO BEING SERVED
+// NO ASSETS SERVED ON PRIVATE CONTENT
