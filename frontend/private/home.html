@@ -4,13 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Discussion Website</title>
-    <link rel="stylesheet" src="/../public/styles.css" />
+    <link rel="stylesheet" href="/../assets/styles.css" />
   </head>
   <body>
     <div class="home-body">
       <nav>
         <a href="#">Home</a>
-        <a href="#" onclick="logoutButtonHandler()">Logout</a>
+        <a href="#" onclick="handleLogout()">Logout</a>
+        <script>
+          function handleLogout() {
+            var boi = { haha: "haha" };
+            submitForm(boi, "logout");
+          }
+        </script>
       </nav>
 
       <main>
@@ -33,6 +39,6 @@
         </button>
       </main>
     </div>
-    <script src="/../public/scripts.js"></script>
+    <script src="/../assets/scripts.js"></script>
   </body>
 </html>

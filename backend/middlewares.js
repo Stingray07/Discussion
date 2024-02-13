@@ -33,6 +33,11 @@ const sessionMiddleware = session({
   resave: false,
   saveUninitialized: false,
   secret: process.env.SECRET,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
+    secure: false,
+    httpOnly: true,
+  },
 });
 
 const authenticate = async (req, res, next) => {
@@ -42,6 +47,7 @@ const authenticate = async (req, res, next) => {
     const auth_res = await authUser(req.body, pool);
     if (auth_res) {
       req.session.username = req.body.username;
+      req.session.loggedIn = true;
       console.log(req.sessionID);
       next();
     } else {
@@ -49,7 +55,7 @@ const authenticate = async (req, res, next) => {
       res.status(401).send("Unauthorized");
     }
   } catch (error) {
-    console.error("Error in authentication middleware:", error);
+    console.error("Error in AUTHENTICATE middleware:", error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -76,16 +82,36 @@ const createAccount = async (req, res, next) => {
       next();
     });
   } catch (error) {
-    console.error("Error in createAccount middleware:", error);
+    console.error("Error in CREATE ACCOUNT middleware:", error);
     res.status(500).send("Internal Server Error");
   }
 };
 
 const isAuthenticated = (req, res, next) => {
   console.log("ISAUTH MIDDLEWARE");
-  console.log("Requested File:", req.originalUrl);
-  console.log("Session ID:", req.sessionID);
-  next();
+  try {
+    if (req.session.loggedIn === true) {
+      next();
+    } else {
+      res.status(401).send("Unauthorized");
+    }
+  } catch (error) {
+    console.error("Error in ISAUTH middleware:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+const logout = (req, res, next) => {
+  console.log("LOGOUT MIDDLEWARE");
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+      res.sendStatus(500);
+    } else {
+      next();
+    }
+  });
 };
 
 module.exports = {
@@ -93,6 +119,7 @@ module.exports = {
   sessionMiddleware,
   createAccount,
   isAuthenticated,
+  logout,
 };
 
 // NO ASSETS SERVED ON PRIVATE CONTENT

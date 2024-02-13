@@ -56,9 +56,5 @@ function hasEmptyField(username, password) {
 }
 
 function createNewDiscussionButtonHandler() {
-  window.location.href = "http://localhost:3000/create_discussion.html";
-}
-
-function logoutButtonHandler() {
-  window.location.href = "http://localhost:3000/login.html";
+  window.location.href = "http://localhost:3000/private/create_discussion.html";
 }

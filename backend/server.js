@@ -5,6 +5,7 @@ const {
   sessionMiddleware,
   createAccount,
   isAuthenticated,
+  logout,
 } = require("./middlewares");
 const path = require("path");
 require("dotenv").config();
@@ -12,12 +13,14 @@ require("dotenv").config();
 const app = express();
 const port = 3000;
 
-app.use("/public", express.static(path.join(__dirname, "../frontend/public")));
+app.use("/assets", express.static(path.join(__dirname, "../frontend/assets")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(sessionMiddleware);
 app.use("/login.html", authenticate);
 app.use("/create_account.html", createAccount);
+app.use("/logout.html", logout);
+app.use("/public", express.static(path.join(__dirname, "../frontend/public")));
 app.use(
   "/private",
   isAuthenticated,
@@ -26,13 +29,17 @@ app.use(
 
 // Main GET handler
 app.get("/", (req, res) => {
-  res.redirect("/login.html");
+  res.redirect("/public/login.html");
 });
 
 // Login POST handler
 app.post("/login.html", async (req, res) => {
   // Redirect to home IF authorized
-  res.redirect("/home.html");
+  res.redirect("/private/home.html");
+});
+
+app.post("/logout.html", async (req, res) => {
+  res.redirect("/public/login.html");
 });
 
 // Create Account POST handler
