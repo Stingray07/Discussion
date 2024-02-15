@@ -93,7 +93,7 @@ const isAuthenticated = (req, res, next) => {
     if (req.session.loggedIn === true) {
       next();
     } else {
-      res.status(401).send("Unauthorized");
+      res.status(401).send("UNAUTHORIZED");
     }
   } catch (error) {
     console.error("Error in ISAUTH middleware:", error);
@@ -121,5 +121,3 @@ module.exports = {
   isAuthenticated,
   logout,
 };
-
-// NO ASSETS SERVED ON PRIVATE CONTENT
