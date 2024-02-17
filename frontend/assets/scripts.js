@@ -22,8 +22,15 @@ function submitForm(body, formType) {
       if (response.redirected === true) {
         window.location.href = response.url;
       } else if (response.status === 200) {
-        console.log(response);
         return response.json();
+      } else if (response.status === 401 && formType === "login") {
+        alert("Incorrect Credentials");
+        throw new Error("Incorrect Credentials");
+      } else if (response.status === 401) {
+        throw new Error("Unauthorized Access");
+      } else if (response.status === 409 && formType === "create_account") {
+        alert("Username Already Taken");
+        throw new Error("Username Already Taken");
       } else {
         throw new Error("Failed to fetch data");
       }
@@ -57,4 +64,8 @@ function hasEmptyField(username, password) {
 
 function createNewDiscussionButtonHandler() {
   window.location.href = "http://localhost:3000/private/create_discussion.html";
+}
+
+function incorrectCredentialsHandler() {
+  alert("Incorrect Credentials");
 }

@@ -1,6 +1,6 @@
 const session = require("express-session");
 const { authUser, hashPassword } = require("./auth_ops");
-const { insertAccountCred } = require("./db_ops");
+const { insertAccountCred, selectAccountCred } = require("./db_ops");
 const { Pool } = require("pg");
 const RedisStore = require("connect-redis").default;
 const redis = require("redis");
@@ -52,7 +52,7 @@ const authenticate = async (req, res, next) => {
       next();
     } else {
       console.log("ACCOUNT NOT IN DB");
-      res.status(401).send("Unauthorized");
+      res.status(401).send("Incorrect Credentials");
     }
   } catch (error) {
     console.error("Error in AUTHENTICATE middleware:", error);
@@ -62,6 +62,20 @@ const authenticate = async (req, res, next) => {
 
 const createAccount = async (req, res, next) => {
   console.log("CREATE ACCOUNT MIDDLEWARE");
+
+  //Check if username is taken
+  try {
+    select_res = selectAccountCred(req.body.username, pool);
+    if (select_res) {
+      res.status(409).send("Username Already Taken");
+      return;
+    }
+  } catch (error) {
+    console.error("Error in CREATE ACCOUNT middleware:", error);
+    res.status(500).send("Internal Server Error");
+  }
+
+  //Hash password and save account credentials
   try {
     hashPassword(req.body.password, async (err, hashedResult) => {
       if (err) {

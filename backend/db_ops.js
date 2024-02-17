@@ -1,3 +1,4 @@
+//Insert account details to DB
 async function insertAccountCred(object, pool) {
   const insertQuery = `
     INSERT INTO account (acc_username, acc_password, pass_salt)
@@ -18,6 +19,7 @@ async function insertAccountCred(object, pool) {
   }
 }
 
+//Return row of username parameter to DB
 async function selectAccountCred(username, pool) {
   const selectQuery = `
     SELECT * FROM account WHERE acc_username = '${username}'
