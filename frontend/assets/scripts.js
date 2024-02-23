@@ -65,7 +65,3 @@ function hasEmptyField(username, password) {
 function createNewDiscussionButtonHandler() {
   window.location.href = "http://localhost:3000/private/create_discussion.html";
 }
-
-function incorrectCredentialsHandler() {
-  alert("Incorrect Credentials");
-}

@@ -1,6 +1,6 @@
 const session = require("express-session");
-const { authUser, hashPassword } = require("./auth_ops");
-const { insertAccountCred, selectAccountCred } = require("./db_ops");
+const { authUser, hashPassword } = require("../auth_ops");
+const { insertAccountCred, selectAccountCred } = require("../db_ops");
 const { Pool } = require("pg");
 const RedisStore = require("connect-redis").default;
 const redis = require("redis");
