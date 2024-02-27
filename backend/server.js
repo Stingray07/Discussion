@@ -11,6 +11,8 @@ require("dotenv").config();
 
 const sessionMiddleware = require("./middlewares/redis-session");
 
+console.log(sessionMiddleware);
+
 const app = express();
 const port = 3000;
 

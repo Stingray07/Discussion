@@ -27,6 +27,4 @@ const sessionMiddleware = session({
   },
 });
 
-module.exports = {
-  sessionMiddleware,
-};
+module.exports = sessionMiddleware;
