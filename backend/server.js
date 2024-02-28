@@ -1,17 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const {
-  authenticate,
-  createAccount,
-  isAuthenticated,
-  logout,
-} = require("./middlewares/middlewares");
 const path = require("path");
-require("dotenv").config();
-
 const sessionMiddleware = require("./middlewares/redis-session");
-
-console.log(sessionMiddleware);
+const { isAuthenticated, authenticate, logout } = require("./middlewares/auth");
+const createAccount = require("./middlewares/create_account");
 
 const app = express();
 const port = 3000;
