@@ -17,8 +17,9 @@ const createAccount = async (req, res, next) => {
 
   //Check if username is taken
   try {
-    select_res = selectAccountCred(req.body.username, pool);
-    if (select_res) {
+    select_res = await selectAccountCred(req.body.username, pool);
+    console.log(select_res);
+    if (Object.keys(select_res).length !== 0) {
       res.status(409).send("Username Already Taken");
       return;
     }
