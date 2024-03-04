@@ -4,16 +4,28 @@ const path = require("path");
 const sessionMiddleware = require("./middlewares/redis-session");
 const { isAuthenticated, authenticate, logout } = require("./middlewares/auth");
 const createAccount = require("./middlewares/create_account");
+const { Pool } = require("pg");
 
 const app = express();
 const port = 3000;
+
+require("dotenv").config();
+
+const password = process.env.DB_PASSWORD;
+const pool = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "Discussion Database",
+  password: password,
+  port: 5432,
+});
 
 app.use("/assets", express.static(path.join(__dirname, "../frontend/assets")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(sessionMiddleware);
-app.use("/login.html", authenticate);
-app.use("/create_account.html", createAccount);
+app.use("/login.html", authenticate(pool));
+app.use("/create_account.html", createAccount(pool));
 app.use("/logout.html", logout);
 app.use("/public", express.static(path.join(__dirname, "../frontend/public")));
 app.use(
