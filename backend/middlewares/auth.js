@@ -1,4 +1,4 @@
-const { authUser } = require("../auth_ops");
+const { authUser } = require("../services/auth_ops");
 
 const authenticate = (pool) => {
   return async (req, res, next) => {

@@ -4,21 +4,10 @@ const path = require("path");
 const sessionMiddleware = require("./middlewares/redis-session");
 const { isAuthenticated, authenticate, logout } = require("./middlewares/auth");
 const createAccount = require("./middlewares/create_account");
-const { Pool } = require("pg");
+const pool = require("./services/pool");
 
 const app = express();
 const port = 3000;
-
-require("dotenv").config();
-
-const password = process.env.DB_PASSWORD;
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "Discussion Database",
-  password: password,
-  port: 5432,
-});
 
 app.use("/assets", express.static(path.join(__dirname, "../frontend/assets")));
 app.use(bodyParser.json());
@@ -41,7 +30,6 @@ app.get("/", (req, res) => {
 
 // Login POST handler
 app.post("/login.html", async (req, res) => {
-  // Redirect to home IF authorized
   res.redirect("/private/home.html");
 });
 
@@ -51,11 +39,7 @@ app.post("/logout.html", async (req, res) => {
 
 // Create Account POST handler
 app.post("/create_account.html", (req, res) => {
-  var body = {
-    username: req.body.username,
-    stat: "Account Created",
-  };
-  res.json(body);
+  res.status(201).send("Account Created");
 });
 
 // Create Discussion POST handler

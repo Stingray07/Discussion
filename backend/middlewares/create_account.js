@@ -1,5 +1,5 @@
-const { hashPassword } = require("../auth_ops");
-const { insertAccountCred, selectAccountCred } = require("../db_ops");
+const { hashPassword } = require("../services/auth_ops");
+const { insertAccountCred, selectAccountCred } = require("../services/db_ops");
 
 const createAccount = (pool) => {
   return async (req, res, next) => {

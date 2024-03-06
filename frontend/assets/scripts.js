@@ -14,6 +14,38 @@ function initializeReqOptions(raw, reqType) {
 }
 
 function submitForm(body, formType) {
+  const handleResponse = {
+    200: (response) => response.json(),
+    201: (_) => {
+      if (formType === "create_account") {
+        alert("Account successfully created");
+      }
+    },
+    401: (_) => {
+      if (formType === "login") {
+        alert("Incorrect Credentials");
+        throw new Error("Incorrect Credentials");
+      } else {
+        throw new Error("Unauthorized Access");
+      }
+    },
+    409: (_) => {
+      if (formType === "create_account") {
+        alert("Username Already Taken");
+        throw new Error("Username Already Taken");
+      } else {
+        throw new Error("Failed to fetch data");
+      }
+    },
+    500: (_) => {
+      alert("Server Error");
+      throw new Error("Server Error");
+    },
+    default: () => {
+      throw new Error("Failed to fetch data");
+    },
+  };
+
   const reqType = "POST";
   const requestOptions = initializeReqOptions(body, reqType);
 
@@ -21,18 +53,10 @@ function submitForm(body, formType) {
     .then((response) => {
       if (response.redirected === true) {
         window.location.href = response.url;
-      } else if (response.status === 200) {
-        return response.json();
-      } else if (response.status === 401 && formType === "login") {
-        alert("Incorrect Credentials");
-        throw new Error("Incorrect Credentials");
-      } else if (response.status === 401) {
-        throw new Error("Unauthorized Access");
-      } else if (response.status === 409 && formType === "create_account") {
-        alert("Username Already Taken");
-        throw new Error("Username Already Taken");
       } else {
-        throw new Error("Failed to fetch data");
+        const handler =
+          handleResponse[response.status] || handleResponse.default;
+        return handler(response);
       }
     })
     .then((data) => {
