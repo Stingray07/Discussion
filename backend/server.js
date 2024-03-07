@@ -33,6 +33,7 @@ app.post("/login.html", async (req, res) => {
   res.redirect("/private/home.html");
 });
 
+// Logout POST handler
 app.post("/logout.html", async (req, res) => {
   res.redirect("/public/login.html");
 });
