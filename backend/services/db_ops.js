@@ -33,7 +33,28 @@ async function selectAccountCred(username, pool) {
   }
 }
 
+async function insertDiscussion(object, pool) {
+  const insertQuery = `
+    INSERT INTO discussion (title, content, acc_id)
+    VALUES ($1, $2, $3)
+    RETURNING *;
+    `;
+
+  try {
+    const res = await pool.query(insertQuery, [
+      object.title,
+      object.content,
+      object.acc_id,
+    ]);
+
+    return res.rows;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   insertAccountCred,
   selectAccountCred,
+  insertDiscussion,
 };

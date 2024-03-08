@@ -62,7 +62,10 @@ function submitForm(body, formType) {
     .then((data) => {
       console.log("Fecthed Data: ", data);
     })
-    .catch((error) => console.error("error", error));
+    .catch((error) => {
+      console.error("error", error);
+      alert(error);
+    });
 }
 
 function getUserAndPass() {
@@ -73,11 +76,11 @@ function getUserAndPass() {
 }
 
 function getTopicAndContent() {
-  const discussionTopic = document.getElementById("discussionTopic").value;
+  const discussionTitle = document.getElementById("discussionTopic").value;
   const discussionContent = document.getElementById("discussionContent").value;
 
   return {
-    discussionTopic: discussionTopic,
+    discussionTopic: discussionTitle,
     discussionContent: discussionContent,
   };
 }
