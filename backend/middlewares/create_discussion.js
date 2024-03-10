@@ -1,6 +1,6 @@
 const { insertDiscussion } = require("../services/db_ops");
 
-const create_discussion = (pool) => {
+const createDiscussion = (pool) => {
   return async (req, res, next) => {
     console.log("CREATE DISCUSSION MIDDLEWARE");
 
@@ -8,11 +8,18 @@ const create_discussion = (pool) => {
       const discussion_object = {
         title: req.body.discussionTopic,
         content: req.body.discussionContent,
-        acc_id: hashedResult.salt, //I don't know what to do about this
+        acc_id: req.session.acc_id,
       };
+
+      insertion_res = await insertDiscussion(discussion_object, pool);
+      console.log(insertion_res);
+
+      next();
     } catch (error) {
       console.error("Error in CREATE ACCOUNT middleware:", error);
       res.status(500).send("Internal Server Error");
     }
   };
 };
+
+module.exports = createDiscussion;

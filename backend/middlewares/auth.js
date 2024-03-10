@@ -6,9 +6,12 @@ const authenticate = (pool) => {
 
     try {
       const auth_res = await authUser(req.body, pool);
+      console.log(auth_res);
       if (auth_res) {
+        console.log(auth_res);
         req.session.username = req.body.username;
         req.session.loggedIn = true;
+        req.session.acc_id = auth_res.acc_id;
         console.log(req.sessionID);
         next();
       } else {

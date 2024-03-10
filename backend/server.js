@@ -1,8 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-const sessionMiddleware = require("./middlewares/redis-session");
+const sessionMiddleware = require("./middlewares/redis_session");
 const { isAuthenticated, authenticate, logout } = require("./middlewares/auth");
+const createDiscussion = require("./middlewares/create_discussion");
 const createAccount = require("./middlewares/create_account");
 const pool = require("./services/pool");
 
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(sessionMiddleware);
 app.use("/login.html", authenticate(pool));
 app.use("/create_account.html", createAccount(pool));
+app.use("/create_discussion.html", createDiscussion(pool));
 app.use("/logout.html", logout);
 app.use("/public", express.static(path.join(__dirname, "../frontend/public")));
 app.use(
@@ -40,15 +42,12 @@ app.post("/logout.html", async (req, res) => {
 
 // Create Account POST handler
 app.post("/create_account.html", (req, res) => {
-  res.status(201).send("Account Created");
+  res.status(201).send("Account Created"); // Can also send json
 });
 
 // Create Discussion POST handler
 app.post("/create_discussion.html", (req, res) => {
-  console.log(
-    `CREATE DISCUSSION: topic=${req.body.discussionTopic}; content=${req.body.discussionContent}`
-  );
-  res.json(req.body);
+  res.status(201).send("Discussion Created"); // Can also send json
 });
 
 app.listen(port, () => {

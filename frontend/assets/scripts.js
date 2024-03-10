@@ -20,6 +20,10 @@ function submitForm(body, formType) {
       if (formType === "create_account") {
         alert("Account successfully created");
       }
+
+      if (formType === "create_discussion") {
+        alert("Discussion successfully created");
+      }
     },
     401: (_) => {
       if (formType === "login") {

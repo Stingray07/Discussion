@@ -63,7 +63,7 @@ async function authUser(user_info, pool) {
               console.log(err);
               reject(err);
             } else {
-              resolve(res);
+              resolve({ res: res, acc_id: accountInfo[0].acc_id });
             }
           }
         );
