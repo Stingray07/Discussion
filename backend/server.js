@@ -47,7 +47,13 @@ app.post("/create_account.html", (req, res) => {
 
 // Create Discussion POST handler
 app.post("/create_discussion.html", (req, res) => {
-  res.status(201).send("Discussion Created"); // Can also send json
+  res.status(201).send("Discussion Created");
+});
+
+// Create Comment POST handler
+app.post("/create_comment", (req, res) => {
+  console.log(req.body.comment);
+  res.send(req.body.comment);
 });
 
 app.listen(port, () => {

@@ -96,3 +96,13 @@ function hasEmptyField(username, password) {
 function createNewDiscussionButtonHandler() {
   window.location.href = "http://localhost:3000/private/create_discussion.html";
 }
+
+function openCommentForm() {
+  var commentForm = document.querySelector(".comment-form");
+
+  if (commentForm.style.display === "block") {
+    commentForm.style.display = "none";
+  } else {
+    commentForm.style.display = "block";
+  }
+}

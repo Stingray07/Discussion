@@ -19,6 +19,10 @@
         </script>
       </nav>
 
+      <button onclick="createNewDiscussionButtonHandler()">
+        Create New Discussion
+      </button>
+
       <main>
         <div class="discussion">
           <h2>Discussion Title</h2>
@@ -31,12 +35,9 @@
             id="commentInput"
             placeholder="Type your comment here..."
           ></textarea>
+          <div></div>
           <button onclick="submitComment()">Submit Comment</button>
         </div>
-
-        <button onclick="createNewDiscussionButtonHandler()">
-          Create New Discussion
-        </button>
       </main>
     </div>
     <script src="/../assets/scripts.js"></script>
