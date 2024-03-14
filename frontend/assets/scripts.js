@@ -24,6 +24,10 @@ function submitForm(body, formType) {
       if (formType === "create_discussion") {
         alert("Discussion successfully created");
       }
+
+      if (formType === "create_comment") {
+        alert("Comment successfully created");
+      }
     },
     401: (_) => {
       if (formType === "login") {
@@ -53,7 +57,7 @@ function submitForm(body, formType) {
   const reqType = "POST";
   const requestOptions = initializeReqOptions(body, reqType);
 
-  fetch(`http://localhost:3000/${formType}.html`, requestOptions)
+  fetch(`http://localhost:3000/${formType}`, requestOptions)
     .then((response) => {
       if (response.redirected === true) {
         window.location.href = response.url;
@@ -87,6 +91,12 @@ function getTopicAndContent() {
     discussionTopic: discussionTitle,
     discussionContent: discussionContent,
   };
+}
+
+function getComment() {
+  const comment = document.getElementById("commentInput").value;
+
+  return { comment: comment };
 }
 
 function hasEmptyField(username, password) {

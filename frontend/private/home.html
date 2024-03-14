@@ -37,6 +37,12 @@
           ></textarea>
           <div></div>
           <button onclick="submitComment()">Submit Comment</button>
+          <script>
+            function submitComment() {
+              var comment = getComment();
+              submitForm(comment, "create_comment");
+            }
+          </script>
         </div>
       </main>
     </div>

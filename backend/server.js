@@ -14,10 +14,10 @@ app.use("/assets", express.static(path.join(__dirname, "../frontend/assets")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(sessionMiddleware);
-app.use("/login.html", authenticate(pool));
-app.use("/create_account.html", createAccount(pool));
-app.use("/create_discussion.html", createDiscussion(pool));
-app.use("/logout.html", logout);
+app.use("/login", authenticate(pool));
+app.use("/create_account", createAccount(pool));
+app.use("/create_discussion", createDiscussion(pool));
+app.use("/logout", logout);
 app.use("/public", express.static(path.join(__dirname, "../frontend/public")));
 app.use(
   "/private",
@@ -31,29 +31,28 @@ app.get("/", (req, res) => {
 });
 
 // Login POST handler
-app.post("/login.html", async (req, res) => {
+app.post("/login", async (req, res) => {
   res.redirect("/private/home.html");
 });
 
 // Logout POST handler
-app.post("/logout.html", async (req, res) => {
+app.post("/logout", async (req, res) => {
   res.redirect("/public/login.html");
 });
 
 // Create Account POST handler
-app.post("/create_account.html", (req, res) => {
+app.post("/create_account", (req, res) => {
   res.status(201).send("Account Created"); // Can also send json
 });
 
 // Create Discussion POST handler
-app.post("/create_discussion.html", (req, res) => {
+app.post("/create_discussion.", (req, res) => {
   res.status(201).send("Discussion Created");
 });
 
 // Create Comment POST handler
 app.post("/create_comment", (req, res) => {
-  console.log(req.body.comment);
-  res.send(req.body.comment);
+  res.status(201).send("Comment Created");
 });
 
 app.listen(port, () => {
