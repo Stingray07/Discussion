@@ -42,11 +42,11 @@ app.post("/logout", async (req, res) => {
 
 // Create Account POST handler
 app.post("/create_account", (req, res) => {
-  res.status(201).send("Account Created"); // Can also send json
+  res.status(201).send("Account Created");
 });
 
 // Create Discussion POST handler
-app.post("/create_discussion.", (req, res) => {
+app.post("/create_discussion", (req, res) => {
   res.status(201).send("Discussion Created");
 });
 
