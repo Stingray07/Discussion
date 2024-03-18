@@ -5,6 +5,7 @@ const sessionMiddleware = require("./middlewares/redis_session");
 const { isAuthenticated, authenticate, logout } = require("./middlewares/auth");
 const createDiscussion = require("./middlewares/create_discussion");
 const createAccount = require("./middlewares/create_account");
+const { selectRandomDiscussion } = require("./services/db_ops");
 const pool = require("./services/pool");
 
 const app = express();

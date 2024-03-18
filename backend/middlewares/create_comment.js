@@ -23,3 +23,5 @@ const createComment = (pool) => {
 };
 
 module.exports = createDiscussion;
+
+// Imma start discussion appearance logic first before this

@@ -1,66 +1,3 @@
-//Insert account details to DB
-// async function insertAccountCred(object, pool) {
-//   const insertQuery = `
-//     INSERT INTO account (acc_username, acc_password, pass_salt)
-//     VALUES ($1, $2, $3)
-//     RETURNING *;
-//     `;
-
-//   try {
-//     const res = await pool.query(insertQuery, [
-//       object.username,
-//       object.password,
-//       object.salt,
-//     ]);
-
-//     return res.rows;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-
-// async function insertDiscussion(object, pool) {
-//   const insertQuery = `
-//     INSERT INTO discussion (title, content, acc_id)
-//     VALUES ($1, $2, $3)
-//     RETURNING *;
-//     `;
-
-//   try {
-//     const res = await pool.query(insertQuery, [
-//       object.title,
-//       object.content,
-//       object.acc_id,
-//     ]);
-
-//     return res.rows;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-
-// async function insertComment(object, pool) {
-
-//   // discussion_id and acc_id naming convention not consistent
-//   const insertQuery = `
-//     INSERT INTO comment (discussion_id, acc_id, content)
-//     VALUES ($1, $2, $3)
-//     RETURNING *;
-//     `;
-
-//   try {
-//     const res = await pool.query(insertQuery, [
-//       object.title,
-//       object.content,
-//       object.acc_id,
-//     ]);
-
-//     return res.rows;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-
 async function insertData(tableName, object, pool, columnNames) {
   const placeholders = columnNames
     .map((_, index) => `$${index + 1}`)
@@ -114,9 +51,25 @@ async function selectAccountCred(username, pool) {
   }
 }
 
+async function selectRandomDiscussion(pool) {
+  const selectQuery = `
+  SELECT * FROM discussion
+  ORDER BY RANDOM()
+  LIMIT 5
+  `;
+
+  try {
+    const res = await pool.query(selectQuery);
+    return res.rows;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   insertAccountCred,
   insertDiscussion,
   insertComment,
   selectAccountCred,
+  selectRandomDiscussion,
 };
