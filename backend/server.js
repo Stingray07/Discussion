@@ -5,7 +5,7 @@ const sessionMiddleware = require("./middlewares/redis_session");
 const { isAuthenticated, authenticate, logout } = require("./middlewares/auth");
 const createDiscussion = require("./middlewares/create_discussion");
 const createAccount = require("./middlewares/create_account");
-const { selectRandomDiscussion } = require("./services/db_ops");
+const getDiscussion = require("./middlewares/get_discussion");
 const pool = require("./services/pool");
 
 const app = express();
@@ -18,6 +18,7 @@ app.use(sessionMiddleware);
 app.use("/login", authenticate(pool));
 app.use("/create_account", createAccount(pool));
 app.use("/create_discussion", createDiscussion(pool));
+app.use("/get_discussion", isAuthenticated, getDiscussion(pool));
 app.use("/logout", logout);
 app.use("/public", express.static(path.join(__dirname, "../frontend/public")));
 app.use(
@@ -54,6 +55,10 @@ app.post("/create_discussion", (req, res) => {
 // Create Comment POST handler
 app.post("/create_comment", (req, res) => {
   res.status(201).send("Comment Created");
+});
+
+app.get("/get_discussion", (req, res) => {
+  res.status(200).send(req.session.selection_res);
 });
 
 app.listen(port, () => {

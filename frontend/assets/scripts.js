@@ -6,14 +6,17 @@ function initializeReqOptions(raw, reqType) {
   var requestOptions = {
     method: reqType,
     headers: myHeaders,
-    body: raw,
     redirect: "follow",
   };
+
+  if (reqType === "POST") {
+    requestOptions.body = raw;
+  }
 
   return requestOptions;
 }
 
-function submitForm(body, formType) {
+function submitForm(body, formType, reqType) {
   const handleResponse = {
     200: (response) => response.json(),
     201: (_) => {
@@ -54,7 +57,6 @@ function submitForm(body, formType) {
     },
   };
 
-  const reqType = "POST";
   const requestOptions = initializeReqOptions(body, reqType);
 
   fetch(`http://localhost:3000/${formType}`, requestOptions)
