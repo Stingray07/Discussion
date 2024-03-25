@@ -118,3 +118,8 @@ function openCommentForm() {
     commentForm.style.display = "block";
   }
 }
+
+function handleLogout() {
+  var s = { _: "_" };
+  submitForm(s, "logout", "POST");
+}

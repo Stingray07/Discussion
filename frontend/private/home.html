@@ -13,43 +13,20 @@
         <a href="#" onclick="handleLogout()">Logout</a>
         <button onclick="handleRefresh()">Refresh</button>
         <script>
-          function handleLogout() {
-            var s = { _: "_" };
-            submitForm(s, "logout", "POST");
-          }
-
           function handleRefresh() {
             submitForm("", "get_discussion", "GET");
           }
         </script>
       </nav>
 
-      <button onclick="createNewDiscussionButtonHandler()">
-        Create New Discussion
-      </button>
-
-      <main>
-        <div class="discussion">
-          <h2>Discussion Title</h2>
-          <p>Discussion content goes here...</p>
-          <button onclick="openCommentForm()">Comment</button>
-        </div>
-
-        <div class="comment-form">
-          <textarea
-            id="commentInput"
-            placeholder="Type your comment here..."
-          ></textarea>
-          <div></div>
-          <button onclick="submitComment()">Submit Comment</button>
-          <script>
-            function submitComment() {
-              var comment = getComment();
-              submitForm(comment, "create_comment", "POST");
-            }
-          </script>
-        </div>
-      </main>
+      <div class="createNewDiscussionButtonContainer">
+        <button
+          id="createNewDiscussionButton"
+          onclick="createNewDiscussionButtonHandler()"
+        >
+          Create New Discussion
+        </button>
+      </div>
 
       <main>
         <div class="discussion">

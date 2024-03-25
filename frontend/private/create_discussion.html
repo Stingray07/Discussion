@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="/../assets/styles.css" />
   </head>
   <body>
+    <nav>
+      <a href="#" onclick="handleHome()">Home</a>
+      <a href="#" onclick="handleLogout()">Logout</a>
+      <script>
+        function handleHome() {
+          window.location.href = "http://localhost:3000/private/home.html";
+        }
+      </script>
+    </nav>
     <div class="create-discussion">
       <h2>Create New Discussion</h2>
 
