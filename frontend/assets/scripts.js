@@ -109,15 +109,15 @@ function createNewDiscussionButtonHandler() {
   window.location.href = "http://localhost:3000/private/create_discussion.html";
 }
 
-function openCommentForm() {
-  var commentForm = document.querySelector(".comment-form");
+// function openCommentForm() {
+//   var commentForm = document.querySelector(".comment-form");
 
-  if (commentForm.style.display === "block") {
-    commentForm.style.display = "none";
-  } else {
-    commentForm.style.display = "block";
-  }
-}
+//   if (commentForm.style.display === "block") {
+//     commentForm.style.display = "none";
+//   } else {
+//     commentForm.style.display = "block";
+//   }
+// }
 
 function handleLogout() {
   var s = { _: "_" };

@@ -27,32 +27,26 @@ app.use(
   express.static(path.join(__dirname, "../frontend/private"))
 );
 
-// Main GET handler
 app.get("/", (req, res) => {
   res.redirect("/public/login.html");
 });
 
-// Login POST handler
 app.post("/login", async (req, res) => {
   res.redirect("/private/home.html");
 });
 
-// Logout POST handler
 app.post("/logout", async (req, res) => {
   res.redirect("/public/login.html");
 });
 
-// Create Account POST handler
 app.post("/create_account", (req, res) => {
   res.status(201).send("Account Created");
 });
 
-// Create Discussion POST handler
 app.post("/create_discussion", (req, res) => {
   res.status(201).send("Discussion Created");
 });
 
-// Create Comment POST handler
 app.post("/create_comment", (req, res) => {
   res.status(201).send("Comment Created");
 });
