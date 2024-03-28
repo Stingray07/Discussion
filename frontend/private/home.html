@@ -9,7 +9,7 @@
   <body>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        handleRefresh();
+        showDiscussions();
       });
     </script>
     <div class="home-body">
@@ -33,30 +33,25 @@
         </button>
       </div>
 
-      <main>
-        <div class="discussion">
-          <h2>Discussion Title</h2>
-          <p>Discussion content goes here...</p>
-          <button onclick="openCommentForm()">Comment</button>
-        </div>
+      <main id="mainContent">
+        <section>
+          <div class="discussion">
+            <h2>Discussion Title</h2>
+            <p>Discussion content goes here...</p>
+            <button onclick="openCommentForm()">Comment</button>
+          </div>
 
-        <div class="comment-form">
-          <textarea
-            id="commentInput"
-            placeholder="Type your comment here..."
-          ></textarea>
-          <div></div>
-          <button onclick="submitComment()">Submit Comment</button>
-          <script>
-            function submitComment() {
-              var comment = getComment();
-              submitForm(comment, "create_comment", "POST");
-            }
-          </script>
-        </div>
+          <div class="comment-form">
+            <textarea
+              id="commentInput"
+              placeholder="Type your comment here..."
+            ></textarea>
+            <button onclick="submitComment()">Submit Comment</button>
+          </div>
+        </section>
       </main>
     </div>
     <script src="/../assets/scripts.js"></script>
-    <script src="/../assets/test_script.js"></script>
+    <script src="/../assets/scripts2.js"></script>
   </body>
 </html>
