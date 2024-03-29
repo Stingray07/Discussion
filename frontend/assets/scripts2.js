@@ -30,6 +30,7 @@ function createNewDiscussionButtonHandler() {
 }
 
 function openCommentForm() {
+  console.log("HAHAH");
   var commentForm = document.querySelector(".comment-form");
 
   if (commentForm.style.display === "block") {
@@ -56,8 +57,8 @@ function showDiscussions() {
   const newDiscussionDiv = createDiscussionDiv();
   newSection.appendChild(newDiscussionDiv);
 
-  const newOpenFormDiv = createOpenFormDiv();
-  newSection.appendChild(newOpenFormDiv);
+  const newCommentFormDiv = createCommentFormDiv();
+  newSection.appendChild(newCommentFormDiv);
 
   main.appendChild(newSection);
 }
@@ -75,25 +76,27 @@ function createDiscussionDiv() {
   newDiscussionDiv.appendChild(discussionContent);
 
   const discussionCommentButton = document.createElement("button");
+  discussionCommentButton.onclick = openCommentForm;
   discussionCommentButton.textContent = "Comment";
   newDiscussionDiv.appendChild(discussionCommentButton);
 
   return newDiscussionDiv;
 }
 
-function createOpenFormDiv() {
-  const newOpenFormDiv = document.createElement("div");
-  newOpenFormDiv.className = "comment-form";
+function createCommentFormDiv() {
+  const newCommentFormDiv = document.createElement("div");
+  newCommentFormDiv.className = "comment-form";
 
   const newTextArea = document.createElement("textarea");
   newTextArea.id = "commentInput";
   newTextArea.placeholder = "Type your comment here...";
-  newOpenFormDiv.appendChild(newTextArea);
+  newCommentFormDiv.appendChild(newTextArea);
 
   const newSubmitCommentButton = document.createElement("button");
   newSubmitCommentButton.textContent = "Submit Comment";
-  newSubmitCommentButton.onclick = openCommentForm;
-  newOpenFormDiv.appendChild(newSubmitCommentButton);
+
+  newSubmitCommentButton.onclick = submitComment;
+  newCommentFormDiv.appendChild(newSubmitCommentButton);
   console.log("IM HERE");
-  return newOpenFormDiv;
+  return newCommentFormDiv;
 }
