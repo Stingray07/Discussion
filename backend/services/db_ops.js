@@ -19,19 +19,19 @@ async function insertData(tableName, object, pool, columnNames) {
   }
 }
 
-async function insertDiscussion(object, pool) {
+function insertDiscussion(object, pool) {
   const columnNames = ["title", "content", "acc_id"];
   const values = [object.title, object.content, object.acc_id];
   return insertData("discussion", values, pool, columnNames);
 }
 
-async function insertComment(object, pool) {
+function insertComment(object, pool) {
   const columnNames = ["discussion_id", "acc_id", "content"];
   const values = [object.discussion_id, object.acc_id, object.content];
   return insertData("comment", values, pool, columnNames);
 }
 
-async function insertAccountCred(object, pool) {
+function insertAccountCred(object, pool) {
   const columnNames = ["acc_username", "acc_password", "pass_salt"];
   const values = [object.username, object.password, object.salt];
   return insertData("account", values, pool, columnNames);

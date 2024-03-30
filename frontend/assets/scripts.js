@@ -59,7 +59,7 @@ function submitForm(body, formType, reqType) {
 
   const requestOptions = initializeReqOptions(body, reqType);
 
-  fetch(`http://localhost:3000/${formType}`, requestOptions)
+  return fetch(`http://localhost:3000/${formType}`, requestOptions)
     .then((response) => {
       if (response.redirected === true) {
         window.location.href = response.url;
@@ -71,6 +71,7 @@ function submitForm(body, formType, reqType) {
     })
     .then((data) => {
       console.log("Fecthed Data: ", data);
+      return data;
     })
     .catch((error) => {
       console.error("error", error);

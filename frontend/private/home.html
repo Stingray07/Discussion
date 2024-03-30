@@ -9,7 +9,8 @@
   <body>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        showDiscussions();
+        discussions = handleRefresh();
+        showDiscussions(discussions);
       });
     </script>
     <div class="home-body">
@@ -19,7 +20,16 @@
         <button onclick="handleRefresh()">Refresh</button>
         <script>
           function handleRefresh() {
-            submitForm("", "get_discussion", "GET");
+            try {
+              const body = "";
+              const formType = "get_discussion";
+              const reqType = "GET";
+              submitForm(body, formType, reqType).then((data) => {
+                showDiscussions(data);
+              });
+            } catch (error) {
+              console.error("Error:", error);
+            }
           }
         </script>
       </nav>

@@ -30,7 +30,6 @@ function createNewDiscussionButtonHandler() {
 }
 
 function openCommentForm() {
-  console.log("HAHAH");
   var commentForm = document.querySelector(".comment-form");
 
   if (commentForm.style.display === "block") {
@@ -50,29 +49,31 @@ function submitComment() {
   submitForm(comment, "create_comment", "POST");
 }
 
-function showDiscussions() {
-  const main = document.getElementById("mainContent");
-  const newSection = document.createElement("section");
+function showDiscussions(discussions) {
+  for (let i = 0; i < discussions.length; i++) {
+    const main = document.getElementById("mainContent");
+    const newSection = document.createElement("section");
 
-  const newDiscussionDiv = createDiscussionDiv();
-  newSection.appendChild(newDiscussionDiv);
+    const newDiscussionDiv = createDiscussionDiv(discussions[i]);
+    newSection.appendChild(newDiscussionDiv);
 
-  const newCommentFormDiv = createCommentFormDiv();
-  newSection.appendChild(newCommentFormDiv);
+    const newCommentFormDiv = createCommentFormDiv(discussions[i]);
+    newSection.appendChild(newCommentFormDiv);
 
-  main.appendChild(newSection);
+    main.appendChild(newSection);
+  }
 }
 
-function createDiscussionDiv() {
+function createDiscussionDiv(discussion) {
   const newDiscussionDiv = document.createElement("div");
   newDiscussionDiv.className = "discussion";
 
   const discussionTitle = document.createElement("h2");
-  discussionTitle.textContent = "TEST";
+  discussionTitle.textContent = discussion.title;
   newDiscussionDiv.appendChild(discussionTitle);
 
   const discussionContent = document.createElement("p");
-  discussionContent.textContent = "TEST";
+  discussionContent.textContent = discussion.content;
   newDiscussionDiv.appendChild(discussionContent);
 
   const discussionCommentButton = document.createElement("button");
@@ -83,7 +84,7 @@ function createDiscussionDiv() {
   return newDiscussionDiv;
 }
 
-function createCommentFormDiv() {
+function createCommentFormDiv(discussion) {
   const newCommentFormDiv = document.createElement("div");
   newCommentFormDiv.className = "comment-form";
 
@@ -97,6 +98,5 @@ function createCommentFormDiv() {
 
   newSubmitCommentButton.onclick = submitComment;
   newCommentFormDiv.appendChild(newSubmitCommentButton);
-  console.log("IM HERE");
   return newCommentFormDiv;
 }
