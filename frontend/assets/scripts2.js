@@ -29,8 +29,8 @@ function createNewDiscussionButtonHandler() {
   window.location.href = "http://localhost:3000/private/create_discussion.html";
 }
 
-function openCommentForm() {
-  var commentForm = document.querySelector(".comment-form");
+function openCommentForm(commentFormID) {
+  var commentForm = document.getElementById(commentFormID);
 
   if (commentForm.style.display === "block") {
     commentForm.style.display = "none";
@@ -77,7 +77,9 @@ function createDiscussionDiv(discussion) {
   newDiscussionDiv.appendChild(discussionContent);
 
   const discussionCommentButton = document.createElement("button");
-  discussionCommentButton.onclick = openCommentForm;
+  discussionCommentButton.onclick = function () {
+    openCommentForm(discussion.discussion_id);
+  };
   discussionCommentButton.textContent = "Comment";
   newDiscussionDiv.appendChild(discussionCommentButton);
 
@@ -87,6 +89,7 @@ function createDiscussionDiv(discussion) {
 function createCommentFormDiv(discussion) {
   const newCommentFormDiv = document.createElement("div");
   newCommentFormDiv.className = "comment-form";
+  newCommentFormDiv.id = discussion.discussion_id;
 
   const newTextArea = document.createElement("textarea");
   newTextArea.id = "commentInput";
