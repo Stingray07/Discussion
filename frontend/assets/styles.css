@@ -21,7 +21,7 @@ body {
   background-color: #f4f4f4;
 }
 
-.create-discussion {
+.createDiscussion {
   max-width: 600px;
   margin: 50px auto;
   background-color: #fff;
@@ -63,6 +63,15 @@ button {
   cursor: pointer;
 }
 
+.submitButton {
+  background-color: #4d9dd3;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
 button:hover {
   background-color: #45a049;
 }
@@ -82,7 +91,7 @@ button:hover {
   padding-top: 10px;
 }
 
-.comment-form {
+.commentForm {
   display: none;
 }
 

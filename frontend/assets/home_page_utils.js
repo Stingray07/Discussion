@@ -1,34 +1,3 @@
-function getUserAndPass() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  return { username: username, password: password };
-}
-
-function getTopicAndContent() {
-  const discussionTitle = document.getElementById("discussionTopic").value;
-  const discussionContent = document.getElementById("discussionContent").value;
-
-  return {
-    discussionTopic: discussionTitle,
-    discussionContent: discussionContent,
-  };
-}
-
-function getComment() {
-  const comment = document.getElementById("commentInput").value;
-
-  return { comment: comment };
-}
-
-function hasEmptyField(username, password) {
-  return username === "" || password === "";
-}
-
-function createNewDiscussionButtonHandler() {
-  window.location.href = "http://localhost:3000/private/create_discussion.html";
-}
-
 function openCommentForm(commentFormID) {
   var commentForm = document.getElementById(commentFormID);
 
@@ -39,14 +8,17 @@ function openCommentForm(commentFormID) {
   }
 }
 
-function handleLogout() {
-  var s = { _: "_" };
-  submitForm(s, "logout", "POST");
-}
-
-function submitComment() {
-  var comment = getComment();
-  submitForm(comment, "create_comment", "POST");
+function handleRefresh() {
+  try {
+    const body = "";
+    const formType = "get_discussion";
+    const reqType = "GET";
+    submitForm(body, formType, reqType).then((data) => {
+      showDiscussions(data);
+    });
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 function showDiscussions(discussions) {
@@ -88,7 +60,7 @@ function createDiscussionDiv(discussion) {
 
 function createCommentFormDiv(discussion) {
   const newCommentFormDiv = document.createElement("div");
-  newCommentFormDiv.className = "comment-form";
+  newCommentFormDiv.className = "commentForm";
   newCommentFormDiv.id = discussion.discussion_id;
 
   const newTextArea = document.createElement("textarea");
@@ -98,8 +70,28 @@ function createCommentFormDiv(discussion) {
 
   const newSubmitCommentButton = document.createElement("button");
   newSubmitCommentButton.textContent = "Submit Comment";
+  newSubmitCommentButton.className = "submitButton";
 
   newSubmitCommentButton.onclick = submitComment;
   newCommentFormDiv.appendChild(newSubmitCommentButton);
   return newCommentFormDiv;
 }
+
+var controller = new ScrollMagic.Controller();
+
+var scene = new ScrollMagic.Scene({
+  triggerElement: ".dynamicContent #loader",
+  triggerHook: "onEnter",
+})
+  .addTo(controller)
+  .on("enter", function (e) {
+    if (!$("#loader").hasClass("active")) {
+      console.log("TRANIGNA");
+      $("#loader").addClass("active");
+      if (console) {
+        console.log("loading new items");
+      }
+      // simulate ajax call to add content using    the function below
+      handleRefresh();
+    }
+  });

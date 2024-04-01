@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Discussion Website</title>
     <link rel="stylesheet" href="/../assets/styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
   </head>
   <body>
     <script>
@@ -18,20 +20,6 @@
         <a href="#">Home</a>
         <a href="#" onclick="handleLogout()">Logout</a>
         <button onclick="handleRefresh()">Refresh</button>
-        <script>
-          function handleRefresh() {
-            try {
-              const body = "";
-              const formType = "get_discussion";
-              const reqType = "GET";
-              submitForm(body, formType, reqType).then((data) => {
-                showDiscussions(data);
-              });
-            } catch (error) {
-              console.error("Error:", error);
-            }
-          }
-        </script>
       </nav>
 
       <div class="createNewDiscussionButtonContainer">
@@ -44,8 +32,10 @@
       </div>
 
       <main id="mainContent"></main>
+      <div id="loader" class="active">LOADING...</div>
     </div>
-    <script src="/../assets/scripts.js"></script>
-    <script src="/../assets/scripts2.js"></script>
+    <script src="/../assets/form_request_utils.js"></script>
+    <script src="/../assets/form_handlers.js"></script>
+    <script src="/../assets/home_page_utils.js"></script>
   </body>
 </html>
