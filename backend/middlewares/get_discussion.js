@@ -5,8 +5,15 @@ const getDiscussion = (pool) => {
     console.log("GET DISCUSSION MIDDLEWARE");
 
     try {
-      selection_res = await selectRandomDiscussion(pool);
-      console.log(selection_res);
+      const selection_res = await selectRandomDiscussion(
+        req.session.sentDiscussionIDs,
+        pool
+      );
+      for (let i = 0; i < selection_res.length; i++) {
+        discussion_id = selection_res[i].discussion_id;
+        req.session.sentDiscussionIDs.push(discussion_id);
+      }
+      console.log(req.session.sentDiscussionIDs);
       req.session.selection_res = selection_res;
       next();
     } catch (error) {

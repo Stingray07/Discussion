@@ -12,6 +12,7 @@ const authenticate = (pool) => {
         req.session.username = req.body.username;
         req.session.loggedIn = true;
         req.session.acc_id = auth_res.acc_id;
+        req.session.sentDiscussionIDs = [];
         console.log(req.sessionID);
         next();
       } else {

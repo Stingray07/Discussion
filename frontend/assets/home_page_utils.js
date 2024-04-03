@@ -8,6 +8,13 @@ function openCommentForm(commentFormID) {
   }
 }
 
+$(window).scroll(function () {
+  //- 10 = desired pixel distance from the bottom of the page while scrolling)
+  if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+    handleRefresh();
+  }
+});
+
 function handleRefresh() {
   try {
     const body = "";
@@ -76,22 +83,3 @@ function createCommentFormDiv(discussion) {
   newCommentFormDiv.appendChild(newSubmitCommentButton);
   return newCommentFormDiv;
 }
-
-var controller = new ScrollMagic.Controller();
-
-var scene = new ScrollMagic.Scene({
-  triggerElement: ".dynamicContent #loader",
-  triggerHook: "onEnter",
-})
-  .addTo(controller)
-  .on("enter", function (e) {
-    if (!$("#loader").hasClass("active")) {
-      console.log("TRANIGNA");
-      $("#loader").addClass("active");
-      if (console) {
-        console.log("loading new items");
-      }
-      // simulate ajax call to add content using    the function below
-      handleRefresh();
-    }
-  });

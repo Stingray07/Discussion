@@ -51,9 +51,11 @@ async function selectAccountCred(username, pool) {
   }
 }
 
-async function selectRandomDiscussion(pool) {
+async function selectRandomDiscussion(sentDiscussionIDs, pool) {
+  console.log(typeof sentDiscussionIDs);
   const selectQuery = `
   SELECT * FROM discussion
+  WHERE discussion_id NOT IN (2,3,4)
   ORDER BY RANDOM()
   LIMIT 5
   `;
