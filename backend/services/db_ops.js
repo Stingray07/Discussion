@@ -37,7 +37,6 @@ function insertAccountCred(object, pool) {
   return insertData("account", values, pool, columnNames);
 }
 
-//Return row of username parameter to DB
 async function selectAccountCred(username, pool) {
   const selectQuery = `
     SELECT * FROM account WHERE acc_username = '${username}'
@@ -52,10 +51,13 @@ async function selectAccountCred(username, pool) {
 }
 
 async function selectRandomDiscussion(sentDiscussionIDs, pool) {
-  console.log(typeof sentDiscussionIDs);
+  // set value to -1 if sentDiscussionIDs is empty else joined sentDiscussionIDs
+  const stringSentDiscussionIDs =
+    sentDiscussionIDs.length === 0 ? -1 : sentDiscussionIDs.join(", ");
+
   const selectQuery = `
   SELECT * FROM discussion
-  WHERE discussion_id NOT IN (2,3,4)
+  WHERE discussion_id NOT IN (${stringSentDiscussionIDs})
   ORDER BY RANDOM()
   LIMIT 5
   `;

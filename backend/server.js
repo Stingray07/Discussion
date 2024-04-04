@@ -6,6 +6,7 @@ const { isAuthenticated, authenticate, logout } = require("./middlewares/auth");
 const createDiscussion = require("./middlewares/create_discussion");
 const createAccount = require("./middlewares/create_account");
 const getDiscussion = require("./middlewares/get_discussion");
+const createComment = require("./middlewares/create_comment");
 const pool = require("./services/pool");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/login", authenticate(pool));
 app.use("/create_account", createAccount(pool));
 app.use("/create_discussion", createDiscussion(pool));
 app.use("/get_discussion", isAuthenticated, getDiscussion(pool));
+app.use("/create_comment", isAuthenticated, createComment(pool));
 app.use("/logout", logout);
 app.use("/public", express.static(path.join(__dirname, "../frontend/public")));
 app.use(
