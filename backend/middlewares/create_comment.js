@@ -5,8 +5,8 @@ const createComment = (pool) => {
     console.log("CREATE COMMENT MIDDLEWARE");
 
     try {
-      const discussion_object = {
-        discussion_id: req.body.discussionTopic,
+      const comment_object = {
+        discussion_id: req.body.discussionTopic, //how do I get this
         acc_id: req.session.acc_id,
         content: req.body.comment,
       };
