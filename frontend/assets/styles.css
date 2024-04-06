@@ -95,7 +95,7 @@ button:hover {
   display: none;
 }
 
-#commentInput {
+.commentInput {
   width: 100%;
   height: 100px;
 }

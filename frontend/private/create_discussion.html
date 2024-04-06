@@ -26,13 +26,6 @@
         <label for="discussionContent">Discussion Content:</label>
         <textarea id="discussionContent" rows="8" required></textarea>
 
-        <script>
-          function handleSubmitDiscussion() {
-            const discussionJSONBody = getTopicAndContent();
-            submitForm(discussionJSONBody, "create_discussion", "POST");
-          }
-        </script>
-
         <button type="button" onclick="handleSubmitDiscussion()">
           Submit Discussion
         </button>
@@ -41,5 +34,6 @@
 
     <script src="/../assets/form_request_utils.js"></script>
     <script src="/../assets/form_handlers.js"></script>
+    <script src="/../assets/utils.js"></script>
   </body>
 </html>

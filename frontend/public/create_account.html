@@ -16,13 +16,6 @@
         <label for="newPassword">Password:</label>
         <input type="password" id="password" required />
 
-        <script>
-          function handleCreateAccount() {
-            const userAndPass = getUserAndPass();
-            submitForm(userAndPass, "create_account", "POST");
-          }
-        </script>
-
         <button type="button" onclick="handleCreateAccount()">
           Create Account
         </button>
@@ -33,5 +26,6 @@
 
     <script src="/../assets/form_request_utils.js"></script>
     <script src="/../assets/form_handlers.js"></script>
+    <script src="/../assets/utils.js"></script>
   </body>
 </html>

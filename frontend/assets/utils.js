@@ -8,25 +8,13 @@ function openCommentForm(commentFormID) {
   }
 }
 
+// infinite scrolling logic
 $(window).scroll(function () {
   //- 10 = desired pixel distance from the bottom of the page while scrolling)
   if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
     handleRefresh();
   }
 });
-
-function handleRefresh() {
-  try {
-    const body = "";
-    const formType = "get_discussion";
-    const reqType = "GET";
-    submitForm(body, formType, reqType).then((data) => {
-      showDiscussions(data);
-    });
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
 
 function showDiscussions(discussions) {
   for (let i = 0; i < discussions.length; i++) {
@@ -71,7 +59,8 @@ function createCommentFormDiv(discussion) {
   newCommentFormDiv.id = discussion.discussion_id;
 
   const newTextArea = document.createElement("textarea");
-  newTextArea.id = "commentInput";
+  newTextArea.className = "commentInput";
+  newTextArea.id = discussion.discussion_id;
   newTextArea.placeholder = "Type your comment here...";
   newCommentFormDiv.appendChild(newTextArea);
 
@@ -82,4 +71,38 @@ function createCommentFormDiv(discussion) {
   newSubmitCommentButton.onclick = submitComment;
   newCommentFormDiv.appendChild(newSubmitCommentButton);
   return newCommentFormDiv;
+}
+
+function getUserAndPass() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  return { username: username, password: password };
+}
+
+function getTopicAndContent() {
+  const discussionTitle = document.getElementById("discussionTopic").value;
+  const discussionContent = document.getElementById("discussionContent").value;
+
+  return {
+    discussionTopic: discussionTitle,
+    discussionContent: discussionContent,
+  };
+}
+
+function getCommentContent() {
+  // fix this also
+  const comment = document.getElementById("commentInput").value;
+  console.log(comment);
+  return comment;
+}
+
+function getDiscussionID() {}
+
+function hasEmptyField(username, password) {
+  return username === "" || password === "";
+}
+
+function createNewDiscussionButtonHandler() {
+  window.location.href = "http://localhost:3000/private/create_discussion.html";
 }

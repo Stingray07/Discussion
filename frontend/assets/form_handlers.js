@@ -1,40 +1,37 @@
-function getUserAndPass() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  return { username: username, password: password };
-}
-
-function getTopicAndContent() {
-  const discussionTitle = document.getElementById("discussionTopic").value;
-  const discussionContent = document.getElementById("discussionContent").value;
-
-  return {
-    discussionTopic: discussionTitle,
-    discussionContent: discussionContent,
-  };
-}
-
-function getComment() {
-  const comment = document.getElementById("commentInput").value;
-
-  return { comment: comment };
-}
-
-function hasEmptyField(username, password) {
-  return username === "" || password === "";
-}
-
-function createNewDiscussionButtonHandler() {
-  window.location.href = "http://localhost:3000/private/create_discussion.html";
-}
-
 function handleLogout() {
   var s = { _: "_" };
   submitForm(s, "logout", "POST");
 }
 
+function handleLogin() {
+  const userAndPass = getUserAndPass();
+  res = submitForm(userAndPass, "login", "POST");
+}
+
+function handleCreateAccount() {
+  const userAndPass = getUserAndPass();
+  submitForm(userAndPass, "create_account", "POST");
+}
+
 function submitComment() {
-  var comment = getComment();
-  submitForm(comment, "create_comment", "POST");
+  var comment = getCommentContent();
+  submitForm(comment, "create_comment", "POST"); //fix this
+}
+
+function handleSubmitDiscussion() {
+  const discussionJSONBody = getTopicAndContent();
+  submitForm(discussionJSONBody, "create_discussion", "POST");
+}
+
+function handleRefresh() {
+  try {
+    const body = "";
+    const formType = "get_discussion";
+    const reqType = "GET";
+    submitForm(body, formType, reqType).then((data) => {
+      showDiscussions(data);
+    });
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }

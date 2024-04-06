@@ -16,13 +16,6 @@
         <label for="password">Password:</label>
         <input type="password" id="password" required />
 
-        <script>
-          function handleLogin() {
-            const userAndPass = getUserAndPass();
-            res = submitForm(userAndPass, "login", "POST");
-          }
-        </script>
-
         <button type="button" onclick="handleLogin()">Login</button>
       </form>
 
@@ -33,5 +26,6 @@
 
     <script src="/../assets/form_request_utils.js"></script>
     <script src="/../assets/form_handlers.js"></script>
+    <script src="/../assets/utils.js"></script>
   </body>
 </html>
