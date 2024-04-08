@@ -16,16 +16,29 @@ $(window).scroll(function () {
   }
 });
 
+function createDiscussionSection(discussion) {
+  const newSection = document.createElement("section");
+  newSection.className = "discussion_section";
+  newSection.id = discussion.discussion_id;
+
+  function hehe(clicked_id) {
+    alert(clicked_id);
+  }
+
+  return newSection;
+}
+
 function showDiscussions(discussions) {
   for (let i = 0; i < discussions.length; i++) {
     const main = document.getElementById("mainContent");
-    const newSection = document.createElement("section");
+    const newSection = createDiscussionSection(discussions[i]);
+    newSection.onclick = hehe(newSection.id);
 
     const newDiscussionDiv = createDiscussionDiv(discussions[i]);
     newSection.appendChild(newDiscussionDiv);
 
-    const newCommentFormDiv = createCommentFormDiv(discussions[i]);
-    newSection.appendChild(newCommentFormDiv);
+    // const newCommentFormDiv = createCommentFormDiv(discussions[i]);
+    // newSection.appendChild(newCommentFormDiv);
 
     main.appendChild(newSection);
   }
@@ -91,10 +104,7 @@ function getTopicAndContent() {
 }
 
 function getCommentContent() {
-  // fix this also
-  const comment = document.getElementById("commentInput").value;
-  console.log(comment);
-  return comment;
+  console.log();
 }
 
 function getDiscussionID() {}

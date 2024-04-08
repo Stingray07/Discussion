@@ -57,6 +57,12 @@ app.get("/get_discussion", (req, res) => {
   res.status(200).send(req.session.selection_res);
 });
 
+app.get("/comments/:discussion_id", (req, res) => {
+  const discussion_id = req.params.discussion_id;
+
+  res.send(discussion_id);
+});
+
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });

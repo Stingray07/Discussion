@@ -13,9 +13,8 @@ function handleCreateAccount() {
   submitForm(userAndPass, "create_account", "POST");
 }
 
-function submitComment() {
-  var comment = getCommentContent();
-  submitForm(comment, "create_comment", "POST"); //fix this
+function submitComment(event) {
+  console.log(event.target.id);
 }
 
 function handleSubmitDiscussion() {
