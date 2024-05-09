@@ -66,3 +66,7 @@ app.get("/comments/:discussion_id", (req, res) => {
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
+
+// Im not gonna continue this anymore. I think its pretty boring to code.
+// I'll try to get back to it if I find it interesting again tho
+// I'll try another project
