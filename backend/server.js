@@ -69,4 +69,4 @@ app.listen(port, () => {
 
 // Im not gonna continue this anymore. I think its pretty boring to code.
 // I'll try to get back to it if I find it interesting again tho
-// I'll try another project
+// I'll try another project.
